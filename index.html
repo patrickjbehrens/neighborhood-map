@@ -6,6 +6,18 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <div class="filter">
+        <label><input type="radio" name="category" checked value="all" data-bind="checked: selectedCategory" /> All</label>
+        <label><input type="radio" name="category" value="groomer" data-bind="checked: selectedCategory" /> Groomers</label>
+        <label><input type="radio" name="category" value="park" data-bind="checked: selectedCategory" /> Dog Parks</label>
+        <label><input type="radio" name="category" value="store" data-bind="checked: selectedCategory" /> Stores</label>
+    </div>
+
+    <div id="listContainer">
+        <ul data-bind="foreach: filteredLocations">
+            <li data-bind="text: title, click: $parent.currentLocation">></li>
+        </ul>
+    </div>
 
     <div id="map"></div>
 

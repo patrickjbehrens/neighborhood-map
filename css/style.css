@@ -1,4 +1,11 @@
 
+#listContainer {
+  height: 100%;
+  left: 0px;
+  position: absolute;
+  right: 249px;
+}
+
 #map {
   bottom:0px;
   height: 100%;
