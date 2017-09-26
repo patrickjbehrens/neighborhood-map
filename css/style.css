@@ -13,3 +13,8 @@
   position: absolute;
   right: 0px;
 }
+
+#markerTitle {
+  font-size: 150%;
+  color: #0000CD;
+}

@@ -6,19 +6,19 @@
 
 // Initializes the map locations.
 var initLocations = [
-  {category: 'groomer', title: 'Wizard of Paws', position: {lat: 37.876001, lng: -122.300502}},
-  {category: 'groomer', title: 'Tails A Go-Go', position: {lat: 37.890157, lng: -122.297627}},
-  {category: 'groomer', title: 'Kutz For Mutz', position: {lat: 37.889388, lng: -122.298894}},
-  {category: 'groomer', title: 'Dogs Best Friend & The Cats Meow', position: {lat: 37.896172, lng: -122.300565}},
-  {category: 'groomer', title: 'Mudpuppys', position: {lat: 37.89906, lng: -122.323997}},
-  {category: 'park', title: 'Ohlone Doggy Park', position: {lat: 37.873013, lng: -122.275446}},
-  {category: 'park', title: 'Cesar E. Chavez Park', position: {lat: 37.869658, lng: -122.31949}},
-  {category: 'park', title: 'Point Isabel Dog Park', position: {lat: 37.900929, lng: -122.324709}},
-  {category: 'store', title: 'Holistic Hound', position: {lat: 37.879906, lng: -122.268456}},
-  {category: 'store', title: 'Your Basic Bird', position: {lat: 37.857557, lng: -122.253388}},
-  {category: 'store', title: 'Pet Food Express', position: {lat: 37.8694, lng: -122.291979}},
-  {category: 'store', title: 'Alpha Pet Supply', position: {lat: 37.888288, lng: -122.298632}},
-  {category: 'store', title: 'Paco Collars', position: {lat: 37.856434, lng: -122.266362}}
+  {category: 'groomer', title: 'Wizard of Paws', position: {lat: 37.876001, lng: -122.300502}, fsID: '4f16f853e4b09e81de268500'},
+  {category: 'groomer', title: 'Tails A Go-Go', position: {lat: 37.890157, lng: -122.297627}, fsID: '51382c3fe4b0d152d7bf70e8'},
+  {category: 'groomer', title: 'Kutz For Mutz', position: {lat: 37.889388, lng: -122.298894}, fsID: '4e42aee8d1645b30b56d8efb'},
+  {category: 'groomer', title: 'Dogs Best Friend & Cats Meow', position: {lat: 37.896172, lng: -122.300565}, fsID: '4bec78d949430f47f4c407d2'},
+  {category: 'groomer', title: 'Mudpuppys', position: {lat: 37.89906, lng: -122.323997}, fsID: '4bc8963592b376b0cfb2513a'},
+  {category: 'park', title: 'Ohlone Doggy Park', position: {lat: 37.873013, lng: -122.275446}, fsID: '4bdddf1de75c0f47e5f1c503'},
+  {category: 'park', title: 'Cesar E. Chavez Park', position: {lat: 37.869658, lng: -122.31949}, fsID: '4a6a929ef964a520bfcd1fe3'},
+  {category: 'park', title: 'Point Isabel Dog Park', position: {lat: 37.900929, lng: -122.324709}, fsID: '4ea9facb775bf085695fabec'},
+  {category: 'store', title: 'Holistic Hound', position: {lat: 37.879906, lng: -122.268456}, fsID: '4ae343d0f964a520909221e3'},
+  {category: 'store', title: 'Your Basic Bird', position: {lat: 37.857557, lng: -122.253388}, fsID: '4bc69101424195211372041d'},
+  {category: 'store', title: 'Pet Food Express', position: {lat: 37.8694, lng: -122.291979}, fsID: '4aff64f8f964a520263822e3'},
+  {category: 'store', title: 'Alpha Pet Supply', position: {lat: 37.888288, lng: -122.298632}, fsID: '4b58a575f964a520756328e3'},
+  {category: 'store', title: 'Paco Collars', position: {lat: 37.856434, lng: -122.266362}, fsID: '4b50ca10f964a5209d3227e3'}
 ];
 
 // Creates the 'Location' object to build the location list, including list and marker elements.
@@ -65,6 +65,7 @@ var ViewModel = function() {
     var marker = new google.maps.Marker({
       position: locationItem.position,
       title: locationItem.title,
+      id: locationItem.fsID,
       icon: defaultIcon,
       map: map
     });
@@ -105,6 +106,7 @@ var ViewModel = function() {
           location.marker.setVisible(true);
         } else {
           location.marker.setVisible(false);
+          infoWindow.close();
         }
       })
       return match;
@@ -133,19 +135,37 @@ var ViewModel = function() {
   // Populates the infoWindow with location content.
   function populateInfoWindow(marker, infowindow) {
 
-    if (infowindow.marker != marker) {
-         // Clear the infowindow content to give the streetview time to load.
-         infowindow.setContent('');
-         infowindow.marker = marker;
-         // Make sure the marker property is cleared if the infowindow is closed.
-         infowindow.addListener('closeclick', function() {
-             marker.setIcon(defaultIcon);
-         });
-     }
+    // if (infowindow.marker != marker) {
+    //      // Clear the infowindow content to give the streetview time to load.
+    //      infowindow.setContent('');
+    //      infowindow.marker = marker;
+    //      // Make sure the marker property is cleared if the infowindow is closed.
+    //      infowindow.addListener('closeclick', function() {
+    //          marker.setIcon(defaultIcon);
+    //      });
+    //  }
 
-    marker.setIcon(selectedIcon);
-    infowindow.setContent('<div>' + marker.title + '</div><div></div>');
-    infowindow.open(map, marker);
+    // Gets data from Foursquare API and inserts it into the infowindow.
+    var clientID = 'P3XBPSRBVEWY2NESJ3BKZ2WOEARQ3G5QR2WUZGTRZ5IXHDEV';
+    var clientSecret = 'INTGRR5EJR05A4AUDKUK51AL0P5XFPUXBL5K2SMAYERRZNOU';
+    var version = '20170101';
+    var venueID = marker.id;
+    var foursquareURL = 'https://api.foursquare.com/v2/venues/' + venueID + '?client_id=' +
+    clientID + '&client_secret=' + clientSecret + '&v=' + version;
+
+    $.getJSON(foursquareURL, function(data){
+      var userCount = data.response.venue.stats.usersCount;
+      var checkinCount = data.response.venue.stats.checkinsCount;
+      var fsUrl = data.response.venue.canonicalUrl;
+
+      marker.setIcon(selectedIcon);
+      infowindow.setContent('<div id="markerTitle">' + marker.title + '</div><br><div>On Foursquare, <strong>' +
+       userCount + '</strong> users have checked in <strong>' + checkinCount +
+       '</strong> times.</div><br><div><a href="' + fsUrl + '" target="_blank">Visit this place on Foursquare</a></div>');
+      infowindow.open(map, marker);
+
+    }).fail(function() {alert('Sorry, we could not access Foursquare!');});
+
   };
 
   // Connects the selected location from the list to it's marker.
