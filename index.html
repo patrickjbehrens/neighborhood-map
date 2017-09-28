@@ -2,29 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>  <!-- Do I need this?? -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="filter">
-        <label><input type="radio" name="category" checked value="all" data-bind="checked: selectedCategory" /> All</label>
-        <label><input type="radio" name="category" value="groomer" data-bind="checked: selectedCategory" /> Groomers</label>
-        <label><input type="radio" name="category" value="park" data-bind="checked: selectedCategory" /> Dog Parks</label>
-        <label><input type="radio" name="category" value="store" data-bind="checked: selectedCategory" /> Stores</label>
+    <div>
+        <h3 id="name">Pet Places of Berkeley</h3>
+        <div class="filter">
+            <h3 id="filterHeader">Click to filter:</h3>
+            <label><input type="radio" name="category" checked value="all" data-bind="checked: selectedCategory" /> All</label><br>
+            <label><input type="radio" name="category" value="groomer" data-bind="checked: selectedCategory" /> Groomers</label><br>
+            <label><input type="radio" name="category" value="park" data-bind="checked: selectedCategory" /> Dog Parks</label><br>
+            <label><input type="radio" name="category" value="store" data-bind="checked: selectedCategory" /> Stores</label>
+        </div><br>
+
+        <div id="listContainer">
+            <ul data-bind="foreach: filteredLocations">
+                <li><a href="#" data-bind="text: title, click: $root.currentLocation"></a></li>
+            </ul>
+        </div>
+
     </div>
 
-    <div id="listContainer">
-        <ul data-bind="foreach: filteredLocations">
-            <li data-bind="text: title, click: $root.currentLocation">></li>
-        </ul>
+    <div class="mapContainer">
+      <div id="map"></div>
     </div>
-
-    <div id="map"></div>
 
     <script src="js/lib/knockout-3.4.2.js"></script>
     <script src="js/lib/jquery-3.2.1.min.js"></script>
     <script src="js/app.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyARCfIX5pEEG1njq7DBhXjRx5Wvyk5egTQ&v=3&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyARCfIX5pEEG1njq7DBhXjRx5Wvyk5egTQ&v=3&callback=initMap" onerror="googleError()"></script>
 
 </body>
 </html>

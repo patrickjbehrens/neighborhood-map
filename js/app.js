@@ -1,7 +1,10 @@
 
 // ATTRIBUTIONS:
+//  Used the Google Maps API to generate the map and markers.
+//  Used the Foursquare API to render user/checkin information.
 //  Used the Google Maps API course materials for function examples and inspiration.
 //  Used code ideas for filtering the list at https://codepen.io/blakewatson/pen/ZQXNmK.
+//  Used styling ideas for the location list at https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-can-copy-and-paste/.
 
 
 // Initializes the map locations.
@@ -9,7 +12,7 @@ var initLocations = [
   {category: 'groomer', title: 'Wizard of Paws', position: {lat: 37.876001, lng: -122.300502}, fsID: '4f16f853e4b09e81de268500'},
   {category: 'groomer', title: 'Tails A Go-Go', position: {lat: 37.890157, lng: -122.297627}, fsID: '51382c3fe4b0d152d7bf70e8'},
   {category: 'groomer', title: 'Kutz For Mutz', position: {lat: 37.889388, lng: -122.298894}, fsID: '4e42aee8d1645b30b56d8efb'},
-  {category: 'groomer', title: 'Dogs Best Friend & Cats Meow', position: {lat: 37.896172, lng: -122.300565}, fsID: '4bec78d949430f47f4c407d2'},
+  {category: 'groomer', title: 'Dogs Best Friend', position: {lat: 37.896172, lng: -122.300565}, fsID: '4bec78d949430f47f4c407d2'},
   {category: 'groomer', title: 'Mudpuppys', position: {lat: 37.89906, lng: -122.323997}, fsID: '4bc8963592b376b0cfb2513a'},
   {category: 'park', title: 'Ohlone Doggy Park', position: {lat: 37.873013, lng: -122.275446}, fsID: '4bdddf1de75c0f47e5f1c503'},
   {category: 'park', title: 'Cesar E. Chavez Park', position: {lat: 37.869658, lng: -122.31949}, fsID: '4a6a929ef964a520bfcd1fe3'},
@@ -41,6 +44,10 @@ function initMap() {
 
   ko.applyBindings(new ViewModel());
 
+};
+
+function googleError() {
+  alert("Sorry, Google Maps cannot load at this time.")
 };
 
 
@@ -135,16 +142,6 @@ var ViewModel = function() {
   // Populates the infoWindow with location content.
   function populateInfoWindow(marker, infowindow) {
 
-    // if (infowindow.marker != marker) {
-    //      // Clear the infowindow content to give the streetview time to load.
-    //      infowindow.setContent('');
-    //      infowindow.marker = marker;
-    //      // Make sure the marker property is cleared if the infowindow is closed.
-    //      infowindow.addListener('closeclick', function() {
-    //          marker.setIcon(defaultIcon);
-    //      });
-    //  }
-
     // Gets data from Foursquare API and inserts it into the infowindow.
     var clientID = 'P3XBPSRBVEWY2NESJ3BKZ2WOEARQ3G5QR2WUZGTRZ5IXHDEV';
     var clientSecret = 'INTGRR5EJR05A4AUDKUK51AL0P5XFPUXBL5K2SMAYERRZNOU';
@@ -168,12 +165,9 @@ var ViewModel = function() {
 
   };
 
-  // Connects the selected location from the list to it's marker.
+  // Connects the selected location from the list to its marker.
   this.currentLocation = function(location) {
     google.maps.event.trigger(this.marker, 'click');
   };
-
-
-
 
 };

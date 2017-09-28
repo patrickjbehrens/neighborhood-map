@@ -1,20 +1,81 @@
 
+#name {
+  color: #0000CD;
+  font: 500 18px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+#filterHeader {
+  font: 500 18px/1.5 Helvetica, Verdana, sans-serif;
+}
+
+.filter {
+  font: 200 18px/1 Helvetica, Verdana, sans-serif;
+}
+
 #listContainer {
   height: 100%;
   left: 0px;
   position: absolute;
-  right: 249px;
+  right: 200px;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  font: 200 18px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+li a {
+  text-decoration: none;
+  display: block;
+  width: 200px;
+}
+
+li a:hover {
+  font-size: 20px;
+  background: #f6f6f6;
+}
+
+.mapContainer {
+  top: 0px;
+  height: 800px;
+  left: 200px;
+  position: absolute;
+  right: 0px;
+  overflow: hidden;
 }
 
 #map {
-  bottom:0px;
   height: 100%;
-  left: 250px;
+  width: 100%;
   position: absolute;
-  right: 0px;
 }
 
 #markerTitle {
   font-size: 150%;
   color: #0000CD;
+}
+
+@media screen and (max-width: 500px) {
+  #name {
+    font-size: 16px;
+  }
+  .filter {
+    font-size: 14px;
+  }
+  li {
+    font-size: 14px;
+  }
+  li a:hover {
+    font-size: 16px;
+  }
+  .mapContainer {
+    left: 170px;
+  }
 }
