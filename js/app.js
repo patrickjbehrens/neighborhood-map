@@ -1,10 +1,10 @@
 
-// ATTRIBUTIONS:
-//  Used the Google Maps API to generate the map and markers.
-//  Used the Foursquare API to render user/checkin information.
-//  Used the Google Maps API course materials for function examples and inspiration.
-//  Used code ideas for filtering the list at https://codepen.io/blakewatson/pen/ZQXNmK.
-//  Used styling ideas for the location list at https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-can-copy-and-paste/.
+/* ATTRIBUTIONS:
+  Used the Google Maps API to generate the map and markers.
+  Used the Foursquare API to render user/checkin information.
+  Used the Google Maps API course materials for function examples and inspiration.
+  Used code ideas for filtering the list at https://codepen.io/blakewatson/pen/ZQXNmK.
+  Used styling ideas for the location list at https://designshack.net/articles/css/5-simple-and-practical-css-list-styles-you-can-copy-and-paste/. */
 
 
 // Initializes the map locations.
@@ -44,19 +44,19 @@ function initMap() {
 
   ko.applyBindings(new ViewModel());
 
-};
+}
 
 function googleError() {
-  alert("Sorry, Google Maps cannot load at this time.")
-};
+  alert("Sorry, Google Maps cannot load at this time.");
+}
 
 
 var ViewModel = function() {
 
   var self = this;
 
-  // Initiates the locationList (including list and marker data) by pushing locations
-  // through the Location object.
+  /* Initiates the locationList (including list and marker data) by pushing locations
+      through the Location object. */
   this.locationList = ko.observableArray([]);
 
   // Initializes the infoWindow.
@@ -115,7 +115,7 @@ var ViewModel = function() {
           location.marker.setVisible(false);
           infoWindow.close();
         }
-      })
+      });
       return match;
     });
   });
@@ -137,7 +137,7 @@ var ViewModel = function() {
     self.locationList().forEach(function(locationItem) {
       locationItem.marker.setIcon(defaultIcon);
     });
-  };
+  }
 
   // Populates the infoWindow with location content.
   function populateInfoWindow(marker, infowindow) {
@@ -163,7 +163,7 @@ var ViewModel = function() {
 
     }).fail(function() {alert('Sorry, we could not access Foursquare!');});
 
-  };
+  }
 
   // Connects the selected location from the list to its marker.
   this.currentLocation = function(location) {
